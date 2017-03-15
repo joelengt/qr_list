@@ -1,47 +1,46 @@
 
-var PostgreSQL = require('../../database/index.js').PostgreSQL;
-var MySQL = require('../../database/index.js').MySQL;
+var Users = require('../../models/users/index.js')
 
 class ItemsController {
     list(req, res) {
-       // PostgreSQL
-       PostgreSQL.query('socios', 'SELECT * FROM socios').make(function(builder) {
-           // parametros de filtrado
-           builder.where('id', 23);
-           builder.where('dni', '76123131');
-       });
 
-       PostgreSQL.exec(function(err, response) {
-           console.log(response.socios);
-           // console.log(response.afiliado_socio);
+       var code_qr = req.body.code_qr;
 
-           return res.status(200).json({
-              status: 'ok Pg',
-              list: response.socios
-           })
+       // Comprar el string con el token  (el token viene del QR)
 
-       });
-    }
+       Users.findOne({'token_auth': code_qr}, (err, user) {
+          if(err) {
+            return console.log('El usuario no se encontro, ' + err);
+          }
 
-    getInfo(req, res) {
-        // Mysql
-        MySQL.query('items', 'SELECT * FROM items').make(function(builder) {
-            // parametros de filtrado
-            builder.where('author', 'someone');
-            // builder.where('color', 'orange');
-        });
+          if(user !== null) {
+            // si el usuario fue encontrado
+               // cambiar su estado a true
+               user.status_connect = true;
 
-        MySQL.exec(function(err, response) {
-            console.log(response.items);
-            // console.log(response.items[0].id);
+               user.save((err, user_saved) => {
+                  if(err) {
+                    return console.log(err);
+                  }
 
-            return res.status(200).json({
-                status: 'ok',
-                list: response.items
-            })
+                  res.status(200).json({
+                      status: 'user check status'
+                  })
 
-        });
-         
+               })
+
+          } else {
+            // si el usuario no fue encontrado
+                // mostrar mensaje de fallo "401" - 
+
+                res.status(404).json({
+                    status: 'user Not Found'
+                })
+
+          }
+
+       })
+
     }
 }
 

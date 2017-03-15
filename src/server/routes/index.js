@@ -1,12 +1,10 @@
 
 function routes(app) {
-    var admin = require('./admin/index.js');
     var users = require('./admin/users/index.js');
-    var items = require('./items/index.js');
+    var check = require('./check/index.js');
     
-    app.use('/info', admin);  // json, xml, request
     app.use('/users', users);
-    app.use('/items', items);
+    app.use('/check', check);
 
 }
 

@@ -6,8 +6,10 @@ var UserController = new userController();
 
 route.get('/list', UserController.list);
 route.get('/item/:id', UserController.item);
-route.get('/create', UserController.create);
-route.get('/update/:id', UserController.update);
-route.get('/delete/:id', UserController.delete);
+route.post('/create', UserController.create);
+// route.put('/update/:id', UserController.update);
+// route.delete('/delete/:id', UserController.delete);
+
+route.put('/reset', UserController.reset);
 
 module.exports = route;

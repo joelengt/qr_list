@@ -13,6 +13,7 @@ var userSchema = new Schema({
     password:      { type: String },
     permiso:       { type: String },
     token_auth:    { type: String },
+    refrest_token: { type: String },
     fecha_creada:  { type: Date, default: Date.now },
     status_connect: { type: Boolean, default: false }
 })
