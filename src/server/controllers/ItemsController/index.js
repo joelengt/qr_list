@@ -8,7 +8,7 @@ class ItemsController {
 
        // Comprar el string con el token  (el token viene del QR)
 
-       Users.findOne({'token_auth': code_qr}, (err, user) {
+       Users.findOne({'token_auth': code_qr}, (err, user) => {
           if(err) {
             return console.log('El usuario no se encontro, ' + err);
           }

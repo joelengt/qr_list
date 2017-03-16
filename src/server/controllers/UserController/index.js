@@ -1,6 +1,14 @@
 var Users = require('../../models/users/index.js')
 var jwt = require('jsonwebtoken')
 
+var qr = require('qr-image');
+
+var fs = require('fs');
+
+function file(name) {
+    return fs.createWriteStream('./uploads/qrs/' + name);
+}
+
 class UserController {
     list(req, res) {
 
@@ -59,7 +67,12 @@ class UserController {
 
             user_saved.token_auth = jwt.sign(user_saved, process.env.JWT_SECRET || "casita")
 
-             user_saved.save((err, user_saver2) => {
+            // Generate code QR
+            var ec_level = 'Q';
+
+            qr.image(`${ user_saved._id }`, { type: 'png', ec_level: ec_level, parse_url: false, margin: 1}).pipe(file(`${ user_saved._id }.png`));
+
+            user_saved.save((err, user_saver2) => {
                  if(err) {
                      return console.log(err);
                  }
