@@ -6,35 +6,49 @@ class ItemsController {
 
        var code_qr = req.body.code_qr;
 
-       // Comprar el string con el token  (el token viene del QR)
-
-       Users.findOne({'token_auth': code_qr}, (err, user) => {
+       Users.findOne({'_id': code_qr}, (err, user) => {
           if(err) {
-            return console.log('El usuario no se encontro, ' + err);
+            return res.status(404).json({
+                    status: 'not_found',
+                    message: 'Código QR no válido'
+                })
           }
 
           if(user !== null) {
             // si el usuario fue encontrado
-               // cambiar su estado a true
-               user.status_connect = true;
+               if(user.status_connect === false) {
+                   // cambiar su estado a true
+                    user.status_connect = true;
 
-               user.save((err, user_saved) => {
-                  if(err) {
-                    return console.log(err);
-                  }
+                    user.hora_entrada = new Date()
 
-                  res.status(200).json({
-                      status: 'user check status'
-                  })
+                    user.save((err, user_saved) => {
+                       if(err) {
+                         return console.log(err);
+                       }
 
-               })
+                       // Evento socket.io
+
+                       res.status(200).json({
+                           status: 'new_check',
+                           message: 'QR OK - ¡Usuario Check!'
+                       })
+
+                    })
+
+               } else {
+
+                    res.status(200).json({
+                        status: 'user_checked',
+                        message: 'El usuario ya esta marcado'
+                    })
+
+               }
 
           } else {
-            // si el usuario no fue encontrado
-                // mostrar mensaje de fallo "401" - 
-
                 res.status(404).json({
-                    status: 'user Not Found'
+                    status: 'not_found',
+                    message: 'Código QR no válido'
                 })
 
           }

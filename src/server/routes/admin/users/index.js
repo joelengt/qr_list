@@ -12,4 +12,10 @@ route.post('/create', UserController.create);
 
 route.put('/reset', UserController.reset);
 
+// Render view - users list
+route.get('/admin/usuarios', UserController.listView);
+
+// Render view - users check status
+route.get('/admin/usuarios/status', UserController.listCheckStatusView);
+
 module.exports = route;

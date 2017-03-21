@@ -52,11 +52,13 @@ class UserController {
             dni:           req.body.dni || '',
             email:         req.body.email || '',
             username:      req.body.username || '',
-            password:      req.body.username || '',
+            password:      req.body.password || '',
             permiso:       'worker',
             token_auth:    '',
             refrest_token: ''
         }
+
+        user.full_name = `${ user.names } ${ user.last_names }`;
 
         var worker_new = new Users(user);
 
@@ -114,19 +116,56 @@ class UserController {
             for(var i = 0; i <= users.length - 1; i++) {
                 var el = users[i];
 
-                // Generate new code QR
+                users[i].status_connect = false;
 
-                // Change status_connect to false
-                 
+                users[i].save((err, result) => {
+                    if(err) {
+                        return console.log(err);
+                    }
+                })
+
             }
 
-            res.stats(200).json({
+            res.status(200).json({
                 status: 'users - code QR - reset'
             })
 
         });
 
-        
+    }
+
+    listView(req, res) {
+
+        Users.find((err, users) => {
+            if(err) {
+                return console.log(err);
+            }
+
+            res.render('./admin/users/lista/index.jade', {
+                users: users
+            })
+
+        });
+
+    }
+
+    listCheckStatusView(req, res) {
+        Users.find((err, users) => {
+            if(err) {
+                return console.log(err);
+            }
+
+            var users_status_true = [];
+
+            users_status_true = users.filter((element) => {
+                return element.status_connect === true
+            })
+
+            res.render('./admin/users/listaCheckStatus/index.jade', {
+                users: users_status_true
+            })
+
+        });
     }
 }
 

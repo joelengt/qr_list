@@ -7,14 +7,15 @@ var userSchema = new Schema({
     last_names:    { type: String },
     full_name:     { type: String },
     photo:         {},
-    dni:           { type: String, unique: true },
-    email:         { type: String, unique: true },
-    username:      { type: String, unique: true },
+    dni:           { type: String },
+    email:         { type: String },
+    username:      { type: String },
     password:      { type: String },
     permiso:       { type: String },
     token_auth:    { type: String },
     refrest_token: { type: String },
     fecha_creada:  { type: Date, default: Date.now },
+    hora_entrada:  { type: Date, default: Date.now },
     status_connect: { type: Boolean, default: false }
 })
 

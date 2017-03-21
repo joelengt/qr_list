@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+html(lang="en")
+head
+    meta(charset="UTF-8")
+    title Document
+body
+    h3 Check users status
+
+    div(class="usersList")
+        
+        each user in users
+            article
+                h3 #{user.full_name}
+                img(src="../../../images/avatar.png" width="50")
+                p dni: #{user.dni}
+                p username: @#{user.username}
+                p status: #{user.status_connect}
+                p Hora Entrada: #{user.hora_entrada}
+                hr

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+html(lang="en")
+head
+    meta(charset="UTF-8")
+    title QR Lector
+
+    link(rel='stylesheet', href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
+
+body
+    nav
+        ul
+            li
+                a(href="/users/admin/usuarios/status" target="_blank") Check Users
+
+    h2 Lista de usuarios
+
+    div(class="formRegister")
+        h3 Crear Usuario
+        form(action="/users/create" method="post")
+            div
+                label Nombre
+                input(type="text" name="names")
+            div
+                label Apellido
+                input(type="text" name="last_names")
+            div
+                label DNI
+                input(type="number" name="dni")
+            div
+                label email
+                input(type="email" name="email")
+            div
+                button Registrar
+        hr
+
+    div(class="resetSection")
+        h3 Reset Hora de Entrada del día
+        form(action="/users/reset?_method=put", method="post")
+            button Reset
+        
+        hr
+
+    div(class="usersList")
+        
+        each user in users
+            article
+                h3 #{user.full_name}
+                img(src="../../images/avatar.png" width="50")
+                div
+                    img(src="../../qrs/#{user._id}.png")
+                p Nombre: #{user.names}
+                p Apellidos: #{user.last_names}
+                p dni: #{user.dni}
+                p email: #{user.email}
+                p username: @#{user.username}
+                p permisp: #{user.permiso}
+                p status: #{user.status_connect}
+                p fecha de registro: #{user.fecha_creada}
+                hr
