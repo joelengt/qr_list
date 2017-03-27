@@ -2,7 +2,7 @@ export function event () {
     
     console.log('NotificacionS')
 
-    var socket = io('http://localhost:3000')
+    var socket = io('http://104.236.194.15:3000')
 
     socket.on('notis_counter', function(user) {
         console.log('Cantidad de Notificaciones')
