@@ -1,5 +1,11 @@
 
 var Users = require('../../models/users/index.js')
+var io = require('socket.io')(3000)
+var Noti_Send_Messages = require('../../utils/asistencia/index.js').time
+
+// Ejecutar funcion de enviar notificacion 
+var notis_alert = new Noti_Send_Messages(io)
+notis_alert.connect()
 
 class ItemsController {
     list(req, res) {
@@ -27,12 +33,16 @@ class ItemsController {
                          return console.log(err);
                        }
 
-                       // Evento socket.io
+                      console.log('Event');
+                      console.log(user_saved);
 
-                       res.status(200).json({
+                      // Evento socket.io
+                      notis_alert.notificar(user_saved);
+
+                      res.status(200).json({
                            status: 'new_check',
                            message: 'QR OK - ¡Usuario Check!'
-                       })
+                      })
 
                     })
 
