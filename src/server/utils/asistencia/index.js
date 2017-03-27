@@ -28,7 +28,7 @@ module.exports.time = function (io) {
     }
 
     this.notificar = function (message) {
-
+        console.log('Eveneto llego enviado al cliente');
         io.emit('notis_counter', message)
 
     }
