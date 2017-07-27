@@ -2,21 +2,21 @@ export function event () {
     
     console.log('NotificacionS')
 
-    var socket = io('http://104.236.194.15:3000')
+    var socket = io('http://127.0.0.1:3000')
 
     socket.on('notis_counter', function(user) {
         console.log('Cantidad de Notificaciones')
 
         var template = `<article>
                           <div class="left">
-                            <h3>${ user.full_name }</h3>
+                            <h3>${ user.fullName }</h3>
                             <figure><img src="../../../images/avatar.png" width="100"/></figure>
                           </div>
                           <div class="right">
                             <p><strong>dni:</strong> ${ user.dni }</p>
                             <p><strong>username:</strong> @${ user.username }</p>
-                            <p><strong>status:</strong> ${ user.status_connect }</p>
-                            <p><strong>Hora Entrada:</strong> ${ user.hora_entrada }</p>
+                            <p><strong>status:</strong> ${ user.statusConnect }</p>
+                            <p><strong>Hora Entrada:</strong> ${ user.horaEntrada }</p>
                           </div>
                           <hr/>
                         </article>`;
